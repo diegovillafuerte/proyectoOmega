@@ -10,7 +10,7 @@
 
 CREATE TABLE USUARIOS
 (
-id int
+id int,
 nombre varchar(100),
 password varchar(100),
 base varchar(100),
