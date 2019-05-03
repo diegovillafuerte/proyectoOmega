@@ -12,14 +12,14 @@ CREATE TABLE USUARIOS
 (
 id int
 nombre varchar(100),
-password data_type(100),
-base data_type(100),
+password varchar(100),
+base varchar(100),
 PRIMARY KEY (id)
 );
 
 CREATE TABLE TABLAS
 (
-idtabla int
+idtabla int,
 idusuario int,
 nombre varchar(100),
 PRIMARY KEY (idtabla)
