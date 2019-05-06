@@ -17,6 +17,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import javax.json.Json;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -95,8 +96,8 @@ public class SoapWS {
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "crearTabla")
-    public Boolean crearTabla(@WebParam(name = "esquema") String esquema, @WebParam(name = "nombreTabla") String nombreTabla, @WebParam(name = "iDUsuario") int iDUsuario) {
+    @WebMethod(operationName = "creaTabla")
+    public Boolean creaTabla(@WebParam(name = "esquema") JSONObject esquema, @WebParam(name = "nombreTabla") String nombreTabla, @WebParam(name = "iDUsuario") int iDUsuario) {
             try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
@@ -110,20 +111,29 @@ public class SoapWS {
             
             //Aquí hay que desempaquetar el JSON y generar el query SQL que hará la nueva tabla.
 //          String parametros="";
-//          esquema.
-//            
-//          query.executeQuery("CREATE TABLE "+iDTabla+"( )");
+//          esquema.}
+            Statement query2 = con.createStatement();
+            String campos = "";
+            JSONArray columnas = esquema.getJSONArray("campos");
+            
+            for(int i = 0; i < columnas.length(); i++){
+                campos = campos + columnas.getJSONObject(i).getString('colName') + " " + columnas.getJSONObject(i).getString('dataType') +", ";
+            }
+            String qry="CREATE TABLE "+iDTabla+" ("+campos.substring(0,-1)+")";
+            query2.execute(qry);
             con.commit();
             con.close();
             
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         } catch (SQLException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
             
         }
-        return false;
+        return true;
     }
     
     
