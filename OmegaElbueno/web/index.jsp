@@ -11,12 +11,21 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="ProfileServlet">
+        <form id="my-form" method="post">
             <p>Usuario: </p><input type="text" name="usuario" value="" />
             <p>Contraseña: </p><input type="password" name="contra" value="" />
             <p>Nombre de la base de datos: </p><input type="text" name="basedd" value="" /><br>
             <input type="submit" id="signup" value="Registrar" />
             <input type="submit" id="login" value="Ingresar" />
         </form>
+        <<script type="text/javascript" language="javascript">
+            $("#my-form button").click(function(ev){
+                ev.preventDefault()// cancel form submission
+                if($(this).attr("value")=="button-one"){
+                    //do button 1 thing
+                }
+                // $("#my-form").submit(); if you want to submit the form
+            });
+        </script>
     </body>
 </html>

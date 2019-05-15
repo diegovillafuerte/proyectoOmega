@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -33,14 +34,16 @@ public class LoginResource {
 
     /**
      * Retrieves representation of an instance of webservices.LoginResource
+     * @param name
+     * @param age
      * @return an instance of java.lang.String
      */
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public String getHtml() {
-        if(valida("miguelon","miguelon"))
-            return "Verdadero";
-        return "Falso";
+    public String getHtml(@QueryParam("name")String name, @QueryParam("password")String password) {
+        if(valida(name,password))
+            return "True";
+        return "False";
     }
 
     /**

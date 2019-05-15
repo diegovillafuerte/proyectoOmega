@@ -7,6 +7,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -26,18 +27,29 @@ public interface SoapWS {
 
     /**
      * 
+     * @param password
      * @param name
+     * @param base
      * @return
-     *     returns java.lang.String
+     *     returns java.lang.Boolean
+     * @throws ClassNotFoundException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "hello", targetNamespace = "http://webservices/", className = "referencias.Hello")
-    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://webservices/", className = "referencias.HelloResponse")
-    @Action(input = "http://webservices/SoapWS/helloRequest", output = "http://webservices/SoapWS/helloResponse")
-    public String hello(
+    @RequestWrapper(localName = "altaUsuario", targetNamespace = "http://webservices/", className = "referencias.AltaUsuario")
+    @ResponseWrapper(localName = "altaUsuarioResponse", targetNamespace = "http://webservices/", className = "referencias.AltaUsuarioResponse")
+    @Action(input = "http://webservices/SoapWS/altaUsuarioRequest", output = "http://webservices/SoapWS/altaUsuarioResponse", fault = {
+        @FaultAction(className = ClassNotFoundException_Exception.class, value = "http://webservices/SoapWS/altaUsuario/Fault/ClassNotFoundException")
+    })
+    public Boolean altaUsuario(
         @WebParam(name = "name", targetNamespace = "")
-        String name);
+        String name,
+        @WebParam(name = "password", targetNamespace = "")
+        String password,
+        @WebParam(name = "base", targetNamespace = "")
+        String base)
+        throws ClassNotFoundException_Exception
+    ;
 
     /**
      * 
@@ -56,5 +68,41 @@ public interface SoapWS {
         String nombre,
         @WebParam(name = "password", targetNamespace = "")
         String password);
+
+    /**
+     * 
+     * @param password
+     * @param usuario
+     * @param base
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "signIn", targetNamespace = "http://webservices/", className = "referencias.SignIn")
+    @ResponseWrapper(localName = "signInResponse", targetNamespace = "http://webservices/", className = "referencias.SignInResponse")
+    @Action(input = "http://webservices/SoapWS/signInRequest", output = "http://webservices/SoapWS/signInResponse")
+    public Boolean signIn(
+        @WebParam(name = "base", targetNamespace = "")
+        String base,
+        @WebParam(name = "usuario", targetNamespace = "")
+        String usuario,
+        @WebParam(name = "password", targetNamespace = "")
+        String password);
+
+    /**
+     * 
+     * @param name
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "hello", targetNamespace = "http://webservices/", className = "referencias.Hello")
+    @ResponseWrapper(localName = "helloResponse", targetNamespace = "http://webservices/", className = "referencias.HelloResponse")
+    @Action(input = "http://webservices/SoapWS/helloRequest", output = "http://webservices/SoapWS/helloResponse")
+    public String hello(
+        @WebParam(name = "name", targetNamespace = "")
+        String name);
 
 }

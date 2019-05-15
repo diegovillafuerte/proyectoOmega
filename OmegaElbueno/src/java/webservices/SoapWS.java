@@ -77,17 +77,46 @@ public class SoapWS {
             System.out.println(rs.toString());
             con.commit();
             con.close();
-            
+            return true;
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         } catch (SQLException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
-            
+            return false;
         }
-        return false;
+        
       
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "altaUsuario")
+    public Boolean altaUsuario(@WebParam(name = "name") String name, @WebParam(name = "password") String password, @WebParam(name = "base") String base){
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
+            Statement quer = con.createStatement();
+            ResultSet rs1 = quer.executeQuery("SELECT MAX(ID) AS RES FROM USUARIOS");
+            int id = Integer.parseInt(rs1.getString("RES"));
+            //id = id + 1;*/
+            Statement query = con.createStatement();
+            query.executeUpdate("INSERT INTO USUARIOS (ID, NOMBRE, PASSWORD, BASE) VALUES (4,'"+name+"','"+password+"','"+base+"')");
+            con.commit();
+            con.close();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    
     
     
 }
