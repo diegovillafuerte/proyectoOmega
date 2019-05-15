@@ -11,7 +11,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="action">
+        <form action="ProfileServlet">
             <p>Usuario: </p><input type="text" name="usuario" value="" />
             <p>Contraseña: </p><input type="password" name="contra" value="" />
             <p>Nombre de la base de datos: </p><input type="text" name="basedd" value="" /><br>

@@ -12,14 +12,23 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <select name="tablas">
+        <select name="ProfileServlet">
             <option></option>
             <option></option>
         </select>
         <br>
-        <input type="submit" value="Ver tabla" />
-        <input type="submit" value="Modificar tabla" />
-        <input type="submit" value="Borrar tabla" />
-        <input type="submit" value="Crear tabla" />
+        <input type="submit" id="vt" value="Ver tabla" />
+        <input type="submit" id="mt" value="Modificar tabla" />
+        <input type="submit" id="bt" value="Borrar tabla" />
+        <input type="submit" id="ct" value="Crear tabla" />
     </body>
+    <script type="text/javascript">
+        document.getElementById("mt").onclick = function () {
+            location.href = "modificatabla.jsp";
+        };
+        
+        document.getElementById("ct").onclick = function () {
+            location.href = "nuevatabla.jsp";
+        };
+    </script>
 </html>
