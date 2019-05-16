@@ -24,11 +24,12 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ClassNotFoundException_QNAME = new QName("http://webservices/", "ClassNotFoundException");
     private final static QName _AltaUsuario_QNAME = new QName("http://webservices/", "altaUsuario");
     private final static QName _AltaUsuarioResponse_QNAME = new QName("http://webservices/", "altaUsuarioResponse");
     private final static QName _Hello_QNAME = new QName("http://webservices/", "hello");
     private final static QName _HelloResponse_QNAME = new QName("http://webservices/", "helloResponse");
+    private final static QName _ObtenerTabla_QNAME = new QName("http://webservices/", "obtenerTabla");
+    private final static QName _ObtenerTablaResponse_QNAME = new QName("http://webservices/", "obtenerTablaResponse");
     private final static QName _SignIn_QNAME = new QName("http://webservices/", "signIn");
     private final static QName _SignInResponse_QNAME = new QName("http://webservices/", "signInResponse");
     private final static QName _Valida_QNAME = new QName("http://webservices/", "valida");
@@ -39,14 +40,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link ClassNotFoundException }
-     * 
-     */
-    public ClassNotFoundException createClassNotFoundException() {
-        return new ClassNotFoundException();
     }
 
     /**
@@ -82,6 +75,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ObtenerTabla }
+     * 
+     */
+    public ObtenerTabla createObtenerTabla() {
+        return new ObtenerTabla();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerTablaResponse }
+     * 
+     */
+    public ObtenerTablaResponse createObtenerTablaResponse() {
+        return new ObtenerTablaResponse();
+    }
+
+    /**
      * Create an instance of {@link SignIn }
      * 
      */
@@ -111,31 +120,6 @@ public class ObjectFactory {
      */
     public ValidaResponse createValidaResponse() {
         return new ValidaResponse();
-    }
-
-    /**
-     * Create an instance of {@link Throwable }
-     * 
-     */
-    public Throwable createThrowable() {
-        return new Throwable();
-    }
-
-    /**
-     * Create an instance of {@link StackTraceElement }
-     * 
-     */
-    public StackTraceElement createStackTraceElement() {
-        return new StackTraceElement();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClassNotFoundException }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservices/", name = "ClassNotFoundException")
-    public JAXBElement<ClassNotFoundException> createClassNotFoundException(ClassNotFoundException value) {
-        return new JAXBElement<ClassNotFoundException>(_ClassNotFoundException_QNAME, ClassNotFoundException.class, null, value);
     }
 
     /**
@@ -172,6 +156,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webservices/", name = "helloResponse")
     public JAXBElement<HelloResponse> createHelloResponse(HelloResponse value) {
         return new JAXBElement<HelloResponse>(_HelloResponse_QNAME, HelloResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenerTabla }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "obtenerTabla")
+    public JAXBElement<ObtenerTabla> createObtenerTabla(ObtenerTabla value) {
+        return new JAXBElement<ObtenerTabla>(_ObtenerTabla_QNAME, ObtenerTabla.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenerTablaResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "obtenerTablaResponse")
+    public JAXBElement<ObtenerTablaResponse> createObtenerTablaResponse(ObtenerTablaResponse value) {
+        return new JAXBElement<ObtenerTablaResponse>(_ObtenerTablaResponse_QNAME, ObtenerTablaResponse.class, null, value);
     }
 
     /**

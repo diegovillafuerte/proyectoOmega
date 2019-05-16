@@ -4,20 +4,23 @@
 <xsd:import namespace="http://webservices/" schemaLocation="http://localhost:8080/SoapWS/SoapWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="altaUsuario">
-<part name="parameters" element="tns:altaUsuario"/>
+<message name="obtenerTabla">
+<part name="parameters" element="tns:obtenerTabla"/>
 </message>
-<message name="altaUsuarioResponse">
-<part name="parameters" element="tns:altaUsuarioResponse"/>
-</message>
-<message name="ClassNotFoundException">
-<part name="fault" element="tns:ClassNotFoundException"/>
+<message name="obtenerTablaResponse">
+<part name="parameters" element="tns:obtenerTablaResponse"/>
 </message>
 <message name="valida">
 <part name="parameters" element="tns:valida"/>
 </message>
 <message name="validaResponse">
 <part name="parameters" element="tns:validaResponse"/>
+</message>
+<message name="altaUsuario">
+<part name="parameters" element="tns:altaUsuario"/>
+</message>
+<message name="altaUsuarioResponse">
+<part name="parameters" element="tns:altaUsuarioResponse"/>
 </message>
 <message name="signIn">
 <part name="parameters" element="tns:signIn"/>
@@ -32,14 +35,17 @@
 <part name="parameters" element="tns:helloResponse"/>
 </message>
 <portType name="SoapWS">
-<operation name="altaUsuario">
-<input wsam:Action="http://webservices/SoapWS/altaUsuarioRequest" message="tns:altaUsuario"/>
-<output wsam:Action="http://webservices/SoapWS/altaUsuarioResponse" message="tns:altaUsuarioResponse"/>
-<fault message="tns:ClassNotFoundException" name="ClassNotFoundException" wsam:Action="http://webservices/SoapWS/altaUsuario/Fault/ClassNotFoundException"/>
+<operation name="obtenerTabla">
+<input wsam:Action="http://webservices/SoapWS/obtenerTablaRequest" message="tns:obtenerTabla"/>
+<output wsam:Action="http://webservices/SoapWS/obtenerTablaResponse" message="tns:obtenerTablaResponse"/>
 </operation>
 <operation name="valida">
 <input wsam:Action="http://webservices/SoapWS/validaRequest" message="tns:valida"/>
 <output wsam:Action="http://webservices/SoapWS/validaResponse" message="tns:validaResponse"/>
+</operation>
+<operation name="altaUsuario">
+<input wsam:Action="http://webservices/SoapWS/altaUsuarioRequest" message="tns:altaUsuario"/>
+<output wsam:Action="http://webservices/SoapWS/altaUsuarioResponse" message="tns:altaUsuarioResponse"/>
 </operation>
 <operation name="signIn">
 <input wsam:Action="http://webservices/SoapWS/signInRequest" message="tns:signIn"/>
@@ -52,7 +58,7 @@
 </portType>
 <binding name="SoapWSPortBinding" type="tns:SoapWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="altaUsuario">
+<operation name="obtenerTabla">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -60,11 +66,17 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="ClassNotFoundException">
-<soap:fault name="ClassNotFoundException" use="literal"/>
-</fault>
 </operation>
 <operation name="valida">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="altaUsuario">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

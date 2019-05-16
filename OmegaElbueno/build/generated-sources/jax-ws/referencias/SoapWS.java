@@ -7,7 +7,6 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
-import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -27,29 +26,21 @@ public interface SoapWS {
 
     /**
      * 
-     * @param password
-     * @param name
      * @param base
+     * @param idusuario
      * @return
-     *     returns java.lang.Boolean
-     * @throws ClassNotFoundException_Exception
+     *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "altaUsuario", targetNamespace = "http://webservices/", className = "referencias.AltaUsuario")
-    @ResponseWrapper(localName = "altaUsuarioResponse", targetNamespace = "http://webservices/", className = "referencias.AltaUsuarioResponse")
-    @Action(input = "http://webservices/SoapWS/altaUsuarioRequest", output = "http://webservices/SoapWS/altaUsuarioResponse", fault = {
-        @FaultAction(className = ClassNotFoundException_Exception.class, value = "http://webservices/SoapWS/altaUsuario/Fault/ClassNotFoundException")
-    })
-    public Boolean altaUsuario(
-        @WebParam(name = "name", targetNamespace = "")
-        String name,
-        @WebParam(name = "password", targetNamespace = "")
-        String password,
+    @RequestWrapper(localName = "obtenerTabla", targetNamespace = "http://webservices/", className = "referencias.ObtenerTabla")
+    @ResponseWrapper(localName = "obtenerTablaResponse", targetNamespace = "http://webservices/", className = "referencias.ObtenerTablaResponse")
+    @Action(input = "http://webservices/SoapWS/obtenerTablaRequest", output = "http://webservices/SoapWS/obtenerTablaResponse")
+    public String obtenerTabla(
         @WebParam(name = "base", targetNamespace = "")
-        String base)
-        throws ClassNotFoundException_Exception
-    ;
+        String base,
+        @WebParam(name = "idusuario", targetNamespace = "")
+        String idusuario);
 
     /**
      * 
@@ -68,6 +59,27 @@ public interface SoapWS {
         String nombre,
         @WebParam(name = "password", targetNamespace = "")
         String password);
+
+    /**
+     * 
+     * @param password
+     * @param name
+     * @param base
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "altaUsuario", targetNamespace = "http://webservices/", className = "referencias.AltaUsuario")
+    @ResponseWrapper(localName = "altaUsuarioResponse", targetNamespace = "http://webservices/", className = "referencias.AltaUsuarioResponse")
+    @Action(input = "http://webservices/SoapWS/altaUsuarioRequest", output = "http://webservices/SoapWS/altaUsuarioResponse")
+    public Boolean altaUsuario(
+        @WebParam(name = "name", targetNamespace = "")
+        String name,
+        @WebParam(name = "password", targetNamespace = "")
+        String password,
+        @WebParam(name = "base", targetNamespace = "")
+        String base);
 
     /**
      * 
