@@ -16,7 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import referencias.ClassNotFoundException_Exception;
+
 
 /**
  * REST Web Service
@@ -59,7 +59,7 @@ public class AltaUsuarioResource {
             referencias.SoapWS_Service service = new referencias.SoapWS_Service();
             referencias.SoapWS port = service.getSoapWSPort();
             return port.altaUsuario(name, password, base);
-        } catch (ClassNotFoundException_Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AltaUsuarioResource.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
