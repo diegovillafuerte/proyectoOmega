@@ -16,6 +16,8 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -98,12 +100,14 @@ public class SoapWS {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
-            Statement quer = con.createStatement();
-            ResultSet rs1 = quer.executeQuery("SELECT MAX(ID) AS RES FROM USUARIOS");
-            int id = Integer.parseInt(rs1.getString("RES"));
-            //id = id + 1;*/
             Statement query = con.createStatement();
-            query.executeUpdate("INSERT INTO USUARIOS (ID, NOMBRE, PASSWORD, BASE) VALUES (4,'"+name+"','"+password+"','"+base+"')");
+            ResultSet rs = query.executeQuery("SELECT MAX(ID) AS RES FROM USUARIOS");
+            rs.next();
+            int id=rs.getInt("RES");
+            System.out.println(id);
+            id++;
+            query.execute("INSERT INTO USUARIOS (NOMBRE,BASE, PASSWORD,ID) VALUES ('"+name+"','"+base+"','"+password+"',"+id+")");
+            System.out.println(rs.toString());
             con.commit();
             con.close();
             return true;
@@ -114,6 +118,49 @@ public class SoapWS {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "obtenerTabla")
+    public String obtenerTabla(@WebParam(name = "base") String base, @WebParam(name = "idusuario") String idusuario) {
+        JSONObject jo = new JSONObject();
+        JSONArray jarr = new JSONArray();
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
+            Statement query = con.createStatement();
+            ResultSet rs = query.executeQuery("SELECT IDTABLA FROM TABLAS WHERE NOMBRE = '"+base+"' AND IDUSUARIO = "+idusuario);
+            rs.next();
+            int tabla = rs.getInt("IDTABLA");
+            String nomTabla = "TABLA"+tabla;
+            Statement quer = con.createStatement();
+            ResultSet rst = quer.executeQuery("SELECT * FROM "+nomTabla);
+            int columnas = rst.getMetaData().getColumnCount();
+            String nombres[] = new String[columnas];
+            for(int i = 0;i<columnas;i++){
+                nombres[i] = rst.getMetaData().getColumnName(i+1);
+                    
+                }
+            while(rst.next()){
+                for(String nom: nombres){
+                    jo.put(nom , rst.getString(nom));
+                }
+                jarr.add(jo);
+            }
+            con.commit();
+            con.close();  
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            jo.put("Error", "Error");
+        } catch (SQLException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            jo.put("Error", "Error");
+        }
+        String res = jarr.toString();
+        return res;
     }
     
     
