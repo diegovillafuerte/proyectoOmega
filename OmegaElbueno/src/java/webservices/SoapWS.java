@@ -5,6 +5,7 @@
  */
 package webservices;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,6 +17,12 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -181,9 +188,6 @@ public class SoapWS {
             String s="INSERT INTO ROOT.TABLAS (NOMBRE,IDTABLA,IDUSUARIO) VALUES ('"+nombreTabla+"',"+iDTabla+","+idusuario+")";
             query.execute(s);
             
-            //Aquí hay que desempaquetar el JSON y generar el query SQL que hará la nueva tabla.
-//          String parametros="";
-//          esquema.}
             Statement query2 = con.createStatement();
             String campos = "(";
             JSONParser parser = new JSONParser();
@@ -211,8 +215,56 @@ public class SoapWS {
         }
         return true;
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "obtenTablasDeUsuario")
+    public String obtenTablasDeUsuario(@WebParam(name = "nombre") String nombre) {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
+            Statement query = con.createStatement();
+            ResultSet rs = query.executeQuery("SELECT ID FROM USUARIOS WHERE NOMBRE = '"+nombre+"'");
+            rs.next();
+            int idusuario = rs.getInt("ID");
+            Statement query2 = con.createStatement();
+            ResultSet rs2 = query2.executeQuery("SELECT NOMBRE FROM TABLAS WHERE IDUSUARIO = "+idusuario);
+            //rs2.next();
+            DocumentBuilderFactory dbFactory =
+                DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                org.w3c.dom.Document doc = dBuilder.newDocument();
+                //rs2.next();
+                Element rootElement = doc.createElement("tablas");
+                doc.appendChild(rootElement);
+                Attr attr = doc.createAttribute("usuario");
+                attr.setValue(nombre);
+                rootElement.setAttributeNode(attr);
+                Element nombreTabla = doc.createElement("nombreTabla");
+            while(rs2.next()){
+                
+                String nomTabla = rs2.getString("NOMBRE");
+                System.out.println(nomTabla);
+                nombreTabla.appendChild(doc.createTextNode(nomTabla));
+                rootElement.appendChild(nombreTabla);
+            }
+            
+            
+            return rootElement.toString();
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return "falle";
+        } catch (SQLException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return "falle";
+    }   catch (ParserConfigurationException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return "falle";
+    }
     
     
-    
+    }
     
 }
