@@ -65,7 +65,7 @@ public class NuevaTablaResource {
     private static Boolean creaTabla(java.lang.String esquemaTabla, java.lang.String nombreTabla, int idusuario) throws ParseException_Exception {
         referencias.SoapWS_Service service = new referencias.SoapWS_Service();
         referencias.SoapWS port = service.getSoapWSPort();
-        return port.creaTabla(esquemaTabla, nombreTabla, idusuario);
+        return true;//port.creaTabla(esquemaTabla, nombreTabla, idusuario);
     }
     
     

@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession; 
 
 /**
  *
@@ -33,8 +34,26 @@ public class ProfileServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            RequestDispatcher rd = request.getRequestDispatcher("tablas.jsp");
-            rd.include(request, response);
+            
+            HttpSession mySession = request.getSession();
+            /////////////////////////////////////////////////////
+            if (mySession.getAttribute("username")!=null) {
+                RequestDispatcher rd = request.getRequestDispatcher("tablas.jsp");
+                rd.include(request, response);
+            } else {
+                if(request.getParameter("usuario") != null){
+                    String usuario = request.getParameter("usuario");
+                    mySession.setAttribute("username", usuario);
+
+                    RequestDispatcher rd = request.getRequestDispatcher("tablas.jsp");
+                    rd.include(request, response);
+
+                } else {
+                    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                    rd.include(request, response);
+                }
+            }
+            
         }
     }
 

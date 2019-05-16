@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(webservices.AltasResource.class);
         resources.add(webservices.AltataResource.class);
         resources.add(webservices.LoginResource.class);
+        resources.add(webservices.NuevaTablaResource.class);
         resources.add(webservices.ObtenerTablaResource.class);
     }
     
