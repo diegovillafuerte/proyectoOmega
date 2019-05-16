@@ -16,7 +16,7 @@
             <p>Contraseña: </p><input type="password" id="contra" value="" />
             <p>Nombre de la base de datos: </p><input type="text" id="basedd" value="" /><br>
             <input type="button" id="signup" value="Registrar" onclick="callRESTfulWebService(
-'GET','http://localhost:8080/OmegaElbueno/webresources/alta','')"/>
+'GET','http://localhost:8080/OmegaElbueno/webresources/altas','')"/>
             <input type="button" id="login" value="Ingresar" onclick="callRESTfulWebService(
 'GET','http://localhost:8080/OmegaElbueno/webresources/login','')"/>
         </form>
@@ -43,6 +43,8 @@
                         }
                     } else {
                         if (ajaxRequest.readyState==4 && (ajaxRequest.status==200 || ajaxRequest.status==204)){
+                            var resp = ajaxRequest.responseText;
+                            //alert(resp);
                             if(ajaxRequest.responseText == "True") {
                                 location.href = "ProfileServlet";
                             } else {
@@ -61,6 +63,7 @@
                     aux =  target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value+"&base="+document.getElementById("basedd").value;
                     //ajaxRequest.open(method, target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value"&base="+document.getElementById("basedd").value+"", true /*async*/);
                 }
+                //alert(aux);
                 ajaxRequest.open(method, aux, true /*async*/);
                 ajaxRequest.setRequestHeader("Content-Type", "text/html");
                 ajaxRequest.send(msg);

@@ -30,6 +30,8 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(webservices.AltaUsuarioResource.class);
+        resources.add(webservices.AltasResource.class);
+        resources.add(webservices.AltataResource.class);
         resources.add(webservices.LoginResource.class);
         resources.add(webservices.ObtenerTablaResource.class);
     }
