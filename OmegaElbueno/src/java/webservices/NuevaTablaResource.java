@@ -18,8 +18,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import referencias.ParseException_Exception;
-
 /**
  * REST Web Service
  *
@@ -47,7 +45,7 @@ public class NuevaTablaResource {
     public Boolean getHtml(@QueryParam("esquema")String esquema,@QueryParam("nombre")String nombre,@QueryParam("idusuario")int idusuario) {
         try {
             return creaTabla(esquema, nombre, idusuario);
-        } catch (ParseException_Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(NuevaTablaResource.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -62,7 +60,7 @@ public class NuevaTablaResource {
     public void putHtml(String content) {
     }
 
-    private static Boolean creaTabla(java.lang.String esquemaTabla, java.lang.String nombreTabla, int idusuario) throws ParseException_Exception {
+    private static Boolean creaTabla(java.lang.String esquemaTabla, java.lang.String nombreTabla, int idusuario) {
         referencias.SoapWS_Service service = new referencias.SoapWS_Service();
         referencias.SoapWS port = service.getSoapWSPort();
         return true;//port.creaTabla(esquemaTabla, nombreTabla, idusuario);
