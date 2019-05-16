@@ -11,21 +11,60 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form id="my-form" method="post">
-            <p>Usuario: </p><input type="text" name="usuario" value="" />
-            <p>Contraseña: </p><input type="password" name="contra" value="" />
-            <p>Nombre de la base de datos: </p><input type="text" name="basedd" value="" /><br>
-            <input type="submit" id="signup" value="Registrar" />
-            <input type="submit" id="login" value="Ingresar" />
+        <form>
+            <p>Usuario: </p><input type="text" id="usuario" value="" />
+            <p>Contraseña: </p><input type="password" id="contra" value="" />
+            <p>Nombre de la base de datos: </p><input type="text" id="basedd" value="" /><br>
+            <input type="button" id="signup" value="Registrar" onclick="callRESTfulWebService(
+'GET','http://localhost:8080/OmegaElbueno/webresources/alta','')"/>
+            <input type="button" id="login" value="Ingresar" onclick="callRESTfulWebService(
+'GET','http://localhost:8080/OmegaElbueno/webresources/login','')"/>
         </form>
-        <<script type="text/javascript" language="javascript">
-            $("#my-form button").click(function(ev){
-                ev.preventDefault()// cancel form submission
-                if($(this).attr("value")=="button-one"){
-                    //do button 1 thing
+        <script type="text/javascript" language="javascript">
+            
+            function callRESTfulWebService(method, target, msg) {
+                var ajaxRequest;
+                if (window.XMLHttpRequest){
+                    ajaxRequest=new XMLHttpRequest(); // IE7+, Firefox, Chrome, Opera, Safari
+                } else {
+                    ajaxRequest=new ActiveXObject("Microsoft.XMLHTTP"); // IE6, IE5
                 }
-                // $("#my-form").submit(); if you want to submit the form
-            });
+                    ajaxRequest.onreadystatechange = function(){
+                    
+                    if (target == 'http://localhost:8080/OmegaElbueno/webresources/login') {
+                        if (ajaxRequest.readyState==4 && (ajaxRequest.status==200 || ajaxRequest.status==204)){
+                            var resp = ajaxRequest.responseText;
+                            //alert(resp);
+                            if(resp == "True") {
+                                location.href = "ProfileServlet";
+                            } else {
+                                alert("Usuario y/o contraseña incorrectos");
+                            }
+                        }
+                    } else {
+                        if (ajaxRequest.readyState==4 && (ajaxRequest.status==200 || ajaxRequest.status==204)){
+                            if(ajaxRequest.responseText == "True") {
+                                location.href = "ProfileServlet";
+                            } else {
+                                alert("Ese usuario ya existe");
+                            }
+                        }
+                    }
+                }
+                var aux;
+                
+                if (target == 'http://localhost:8080/OmegaElbueno/webresources/login') {
+                    //alert(document.getElementById("usuario").value);
+                    aux = target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value;
+                    //ajaxRequest.open(method, target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value, true /*async*/);
+                } else {
+                    aux =  target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value+"&base="+document.getElementById("basedd").value;
+                    //ajaxRequest.open(method, target +"?name="+document.getElementById("usuario").value+"&password="+document.getElementById("contra").value"&base="+document.getElementById("basedd").value+"", true /*async*/);
+                }
+                ajaxRequest.open(method, aux, true /*async*/);
+                ajaxRequest.setRequestHeader("Content-Type", "text/html");
+                ajaxRequest.send(msg);
+            } 
         </script>
     </body>
 </html>
