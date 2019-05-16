@@ -18,6 +18,8 @@ import javax.jws.WebParam;
 import javax.ejb.Stateless;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -161,6 +163,53 @@ public class SoapWS {
         }
         String res = jarr.toString();
         return res;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "creaTabla")
+    public Boolean creaTabla(@WebParam(name = "esquemaTabla") String esquemaTabla, @WebParam(name = "nombreTabla") String nombreTabla, @WebParam(name = "idusuario") int idusuario) throws ParseException {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
+            Statement query = con.createStatement();
+            ResultSet rs = query.executeQuery("SELECT MAX(IDTABLA) AS RES FROM TABLAS");
+            rs.next();
+            int iDTabla=rs.getInt("RES");
+            iDTabla++;
+            String s="INSERT INTO ROOT.TABLAS (NOMBRE,IDTABLA,IDUSUARIO) VALUES ('"+nombreTabla+"',"+iDTabla+","+idusuario+")";
+            query.execute(s);
+            
+            //Aquí hay que desempaquetar el JSON y generar el query SQL que hará la nueva tabla.
+//          String parametros="";
+//          esquema.}
+            Statement query2 = con.createStatement();
+            String campos = "(";
+            JSONParser parser = new JSONParser();
+            JSONArray columnas = (JSONArray) parser.parse(esquemaTabla);
+            
+            for(Object obje:columnas){
+                JSONObject col = (JSONObject) obje;
+                campos = campos + col.get("nombre") + " " + col.get("tipo") + ",";
+            }
+            campos = campos.substring(0,campos.length()-1) + ")";
+            String qry="CREATE TABLE TABLA"+iDTabla+" "+campos;
+            System.out.println(qry);
+            query2.execute(qry);
+            con.commit();
+            con.close();
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+            
+        }
+        return true;
     }
     
     
