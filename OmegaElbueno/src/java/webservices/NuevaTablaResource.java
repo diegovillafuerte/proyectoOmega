@@ -5,6 +5,10 @@
  */
 package webservices;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
@@ -18,6 +22,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import org.json.simple.parser.ParseException;
+import referencias.ParseException_Exception;
 /**
  * REST Web Service
  *
@@ -39,15 +45,35 @@ public class NuevaTablaResource {
      * Retrieves representation of an instance of webservices.NuevaTablaResource
      * @return an instance of java.lang.String
      */
-    @POST
+    @GET
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.TEXT_HTML)
-    public Boolean getHtml(@QueryParam("esquema")String esquema,@QueryParam("nombre")String nombre,@QueryParam("idusuario")int idusuario) {
+    public String getHtml(@QueryParam("esquema")String esquema,@QueryParam("nombre")String nombre,@QueryParam("nombreUsuario")String nombreUsuario) {
+            
+        //System.out.println(esquema);
+        
         try {
-            return creaTabla(esquema, nombre, idusuario);
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
+       
+            Statement query5 = con.createStatement();
+            ResultSet rs5 = query5.executeQuery("SELECT ID AS RES2 FROM USUARIOS WHERE NOMBRE='"+nombreUsuario+"'");
+            rs5.next();
+            int idusuario=rs5.getInt("RES2");
+            
+             con.commit();
+            con.close();
+            
+            
+            
+            if (creaTabla(esquema, nombre, idusuario)) {
+                return "True";
+            } else {
+                return "False";
+            }
         } catch (Exception ex) {
             Logger.getLogger(NuevaTablaResource.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return "False";
         }
     }
 
@@ -60,11 +86,14 @@ public class NuevaTablaResource {
     public void putHtml(String content) {
     }
 
-    private static Boolean creaTabla(java.lang.String esquemaTabla, java.lang.String nombreTabla, int idusuario) {
+    
+
+    private static Boolean creaTabla(java.lang.String esquemaTabla, java.lang.String nombreTabla, int idusuario) throws ParseException_Exception, ParseException {
         referencias.SoapWS_Service service = new referencias.SoapWS_Service();
         referencias.SoapWS port = service.getSoapWSPort();
-        return true;//port.creaTabla(esquemaTabla, nombreTabla, idusuario);
+        return port.creaTabla(esquemaTabla, nombreTabla, idusuario);
     }
+    
     
     
     

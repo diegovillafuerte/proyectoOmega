@@ -7,6 +7,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -26,21 +27,18 @@ public interface SoapWS {
 
     /**
      * 
-     * @param base
-     * @param idusuario
+     * @param nombre
      * @return
      *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "obtenerTabla", targetNamespace = "http://webservices/", className = "referencias.ObtenerTabla")
-    @ResponseWrapper(localName = "obtenerTablaResponse", targetNamespace = "http://webservices/", className = "referencias.ObtenerTablaResponse")
-    @Action(input = "http://webservices/SoapWS/obtenerTablaRequest", output = "http://webservices/SoapWS/obtenerTablaResponse")
-    public String obtenerTabla(
-        @WebParam(name = "base", targetNamespace = "")
-        String base,
-        @WebParam(name = "idusuario", targetNamespace = "")
-        String idusuario);
+    @RequestWrapper(localName = "obtenTablasDeUsuario", targetNamespace = "http://webservices/", className = "referencias.ObtenTablasDeUsuario")
+    @ResponseWrapper(localName = "obtenTablasDeUsuarioResponse", targetNamespace = "http://webservices/", className = "referencias.ObtenTablasDeUsuarioResponse")
+    @Action(input = "http://webservices/SoapWS/obtenTablasDeUsuarioRequest", output = "http://webservices/SoapWS/obtenTablasDeUsuarioResponse")
+    public String obtenTablasDeUsuario(
+        @WebParam(name = "nombre", targetNamespace = "")
+        String nombre);
 
     /**
      * 
@@ -57,6 +55,27 @@ public interface SoapWS {
     public Boolean valida(
         @WebParam(name = "nombre", targetNamespace = "")
         String nombre,
+        @WebParam(name = "password", targetNamespace = "")
+        String password);
+
+    /**
+     * 
+     * @param password
+     * @param usuario
+     * @param base
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "signIn", targetNamespace = "http://webservices/", className = "referencias.SignIn")
+    @ResponseWrapper(localName = "signInResponse", targetNamespace = "http://webservices/", className = "referencias.SignInResponse")
+    @Action(input = "http://webservices/SoapWS/signInRequest", output = "http://webservices/SoapWS/signInResponse")
+    public Boolean signIn(
+        @WebParam(name = "base", targetNamespace = "")
+        String base,
+        @WebParam(name = "usuario", targetNamespace = "")
+        String usuario,
         @WebParam(name = "password", targetNamespace = "")
         String password);
 
@@ -83,24 +102,21 @@ public interface SoapWS {
 
     /**
      * 
-     * @param password
-     * @param usuario
      * @param base
+     * @param idusuario
      * @return
-     *     returns java.lang.Boolean
+     *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "signIn", targetNamespace = "http://webservices/", className = "referencias.SignIn")
-    @ResponseWrapper(localName = "signInResponse", targetNamespace = "http://webservices/", className = "referencias.SignInResponse")
-    @Action(input = "http://webservices/SoapWS/signInRequest", output = "http://webservices/SoapWS/signInResponse")
-    public Boolean signIn(
+    @RequestWrapper(localName = "obtenerTabla", targetNamespace = "http://webservices/", className = "referencias.ObtenerTabla")
+    @ResponseWrapper(localName = "obtenerTablaResponse", targetNamespace = "http://webservices/", className = "referencias.ObtenerTablaResponse")
+    @Action(input = "http://webservices/SoapWS/obtenerTablaRequest", output = "http://webservices/SoapWS/obtenerTablaResponse")
+    public String obtenerTabla(
         @WebParam(name = "base", targetNamespace = "")
         String base,
-        @WebParam(name = "usuario", targetNamespace = "")
-        String usuario,
-        @WebParam(name = "password", targetNamespace = "")
-        String password);
+        @WebParam(name = "idusuario", targetNamespace = "")
+        String idusuario);
 
     /**
      * 
@@ -116,5 +132,31 @@ public interface SoapWS {
     public String hello(
         @WebParam(name = "name", targetNamespace = "")
         String name);
+
+    /**
+     * 
+     * @param nombreTabla
+     * @param esquemaTabla
+     * @param idusuario
+     * @return
+     *     returns java.lang.Boolean
+     * @throws ParseException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "creaTabla", targetNamespace = "http://webservices/", className = "referencias.CreaTabla")
+    @ResponseWrapper(localName = "creaTablaResponse", targetNamespace = "http://webservices/", className = "referencias.CreaTablaResponse")
+    @Action(input = "http://webservices/SoapWS/creaTablaRequest", output = "http://webservices/SoapWS/creaTablaResponse", fault = {
+        @FaultAction(className = ParseException_Exception.class, value = "http://webservices/SoapWS/creaTabla/Fault/ParseException")
+    })
+    public Boolean creaTabla(
+        @WebParam(name = "esquemaTabla", targetNamespace = "")
+        String esquemaTabla,
+        @WebParam(name = "nombreTabla", targetNamespace = "")
+        String nombreTabla,
+        @WebParam(name = "idusuario", targetNamespace = "")
+        int idusuario)
+        throws ParseException_Exception
+    ;
 
 }

@@ -58,4 +58,5 @@ public class AltasResource {
         referencias.SoapWS port = service.getSoapWSPort();
         return port.altaUsuario(name, password, base);
     }
+    
 }

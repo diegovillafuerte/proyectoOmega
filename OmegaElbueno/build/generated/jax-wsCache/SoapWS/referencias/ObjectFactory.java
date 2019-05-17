@@ -24,10 +24,15 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _ParseException_QNAME = new QName("http://webservices/", "ParseException");
     private final static QName _AltaUsuario_QNAME = new QName("http://webservices/", "altaUsuario");
     private final static QName _AltaUsuarioResponse_QNAME = new QName("http://webservices/", "altaUsuarioResponse");
+    private final static QName _CreaTabla_QNAME = new QName("http://webservices/", "creaTabla");
+    private final static QName _CreaTablaResponse_QNAME = new QName("http://webservices/", "creaTablaResponse");
     private final static QName _Hello_QNAME = new QName("http://webservices/", "hello");
     private final static QName _HelloResponse_QNAME = new QName("http://webservices/", "helloResponse");
+    private final static QName _ObtenTablasDeUsuario_QNAME = new QName("http://webservices/", "obtenTablasDeUsuario");
+    private final static QName _ObtenTablasDeUsuarioResponse_QNAME = new QName("http://webservices/", "obtenTablasDeUsuarioResponse");
     private final static QName _ObtenerTabla_QNAME = new QName("http://webservices/", "obtenerTabla");
     private final static QName _ObtenerTablaResponse_QNAME = new QName("http://webservices/", "obtenerTablaResponse");
     private final static QName _SignIn_QNAME = new QName("http://webservices/", "signIn");
@@ -40,6 +45,14 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link ParseException }
+     * 
+     */
+    public ParseException createParseException() {
+        return new ParseException();
     }
 
     /**
@@ -59,6 +72,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CreaTabla }
+     * 
+     */
+    public CreaTabla createCreaTabla() {
+        return new CreaTabla();
+    }
+
+    /**
+     * Create an instance of {@link CreaTablaResponse }
+     * 
+     */
+    public CreaTablaResponse createCreaTablaResponse() {
+        return new CreaTablaResponse();
+    }
+
+    /**
      * Create an instance of {@link Hello }
      * 
      */
@@ -72,6 +101,22 @@ public class ObjectFactory {
      */
     public HelloResponse createHelloResponse() {
         return new HelloResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenTablasDeUsuario }
+     * 
+     */
+    public ObtenTablasDeUsuario createObtenTablasDeUsuario() {
+        return new ObtenTablasDeUsuario();
+    }
+
+    /**
+     * Create an instance of {@link ObtenTablasDeUsuarioResponse }
+     * 
+     */
+    public ObtenTablasDeUsuarioResponse createObtenTablasDeUsuarioResponse() {
+        return new ObtenTablasDeUsuarioResponse();
     }
 
     /**
@@ -123,6 +168,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ParseException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "ParseException")
+    public JAXBElement<ParseException> createParseException(ParseException value) {
+        return new JAXBElement<ParseException>(_ParseException_QNAME, ParseException.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AltaUsuario }{@code >}}
      * 
      */
@@ -141,6 +195,24 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreaTabla }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "creaTabla")
+    public JAXBElement<CreaTabla> createCreaTabla(CreaTabla value) {
+        return new JAXBElement<CreaTabla>(_CreaTabla_QNAME, CreaTabla.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link CreaTablaResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "creaTablaResponse")
+    public JAXBElement<CreaTablaResponse> createCreaTablaResponse(CreaTablaResponse value) {
+        return new JAXBElement<CreaTablaResponse>(_CreaTablaResponse_QNAME, CreaTablaResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Hello }{@code >}}
      * 
      */
@@ -156,6 +228,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webservices/", name = "helloResponse")
     public JAXBElement<HelloResponse> createHelloResponse(HelloResponse value) {
         return new JAXBElement<HelloResponse>(_HelloResponse_QNAME, HelloResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenTablasDeUsuario }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "obtenTablasDeUsuario")
+    public JAXBElement<ObtenTablasDeUsuario> createObtenTablasDeUsuario(ObtenTablasDeUsuario value) {
+        return new JAXBElement<ObtenTablasDeUsuario>(_ObtenTablasDeUsuario_QNAME, ObtenTablasDeUsuario.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenTablasDeUsuarioResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservices/", name = "obtenTablasDeUsuarioResponse")
+    public JAXBElement<ObtenTablasDeUsuarioResponse> createObtenTablasDeUsuarioResponse(ObtenTablasDeUsuarioResponse value) {
+        return new JAXBElement<ObtenTablasDeUsuarioResponse>(_ObtenTablasDeUsuarioResponse_QNAME, ObtenTablasDeUsuarioResponse.class, null, value);
     }
 
     /**

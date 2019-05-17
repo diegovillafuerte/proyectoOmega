@@ -51,6 +51,8 @@ public class ObtenerTablaResource {
     public void putHtml(String content) {
     }
 
+    
+
     private static String obtenerTabla(java.lang.String base, java.lang.String idusuario) {
         referencias.SoapWS_Service service = new referencias.SoapWS_Service();
         referencias.SoapWS port = service.getSoapWSPort();

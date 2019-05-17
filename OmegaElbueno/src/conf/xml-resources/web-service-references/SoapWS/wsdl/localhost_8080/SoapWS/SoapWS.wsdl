@@ -4,11 +4,11 @@
 <xsd:import namespace="http://webservices/" schemaLocation="http://localhost:8080/SoapWS/SoapWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="obtenerTabla">
-<part name="parameters" element="tns:obtenerTabla"/>
+<message name="obtenTablasDeUsuario">
+<part name="parameters" element="tns:obtenTablasDeUsuario"/>
 </message>
-<message name="obtenerTablaResponse">
-<part name="parameters" element="tns:obtenerTablaResponse"/>
+<message name="obtenTablasDeUsuarioResponse">
+<part name="parameters" element="tns:obtenTablasDeUsuarioResponse"/>
 </message>
 <message name="valida">
 <part name="parameters" element="tns:valida"/>
@@ -16,17 +16,23 @@
 <message name="validaResponse">
 <part name="parameters" element="tns:validaResponse"/>
 </message>
+<message name="signIn">
+<part name="parameters" element="tns:signIn"/>
+</message>
+<message name="signInResponse">
+<part name="parameters" element="tns:signInResponse"/>
+</message>
 <message name="altaUsuario">
 <part name="parameters" element="tns:altaUsuario"/>
 </message>
 <message name="altaUsuarioResponse">
 <part name="parameters" element="tns:altaUsuarioResponse"/>
 </message>
-<message name="signIn">
-<part name="parameters" element="tns:signIn"/>
+<message name="obtenerTabla">
+<part name="parameters" element="tns:obtenerTabla"/>
 </message>
-<message name="signInResponse">
-<part name="parameters" element="tns:signInResponse"/>
+<message name="obtenerTablaResponse">
+<part name="parameters" element="tns:obtenerTablaResponse"/>
 </message>
 <message name="hello">
 <part name="parameters" element="tns:hello"/>
@@ -34,31 +40,49 @@
 <message name="helloResponse">
 <part name="parameters" element="tns:helloResponse"/>
 </message>
+<message name="creaTabla">
+<part name="parameters" element="tns:creaTabla"/>
+</message>
+<message name="creaTablaResponse">
+<part name="parameters" element="tns:creaTablaResponse"/>
+</message>
+<message name="ParseException">
+<part name="fault" element="tns:ParseException"/>
+</message>
 <portType name="SoapWS">
-<operation name="obtenerTabla">
-<input wsam:Action="http://webservices/SoapWS/obtenerTablaRequest" message="tns:obtenerTabla"/>
-<output wsam:Action="http://webservices/SoapWS/obtenerTablaResponse" message="tns:obtenerTablaResponse"/>
+<operation name="obtenTablasDeUsuario">
+<input wsam:Action="http://webservices/SoapWS/obtenTablasDeUsuarioRequest" message="tns:obtenTablasDeUsuario"/>
+<output wsam:Action="http://webservices/SoapWS/obtenTablasDeUsuarioResponse" message="tns:obtenTablasDeUsuarioResponse"/>
 </operation>
 <operation name="valida">
 <input wsam:Action="http://webservices/SoapWS/validaRequest" message="tns:valida"/>
 <output wsam:Action="http://webservices/SoapWS/validaResponse" message="tns:validaResponse"/>
 </operation>
+<operation name="signIn">
+<input wsam:Action="http://webservices/SoapWS/signInRequest" message="tns:signIn"/>
+<output wsam:Action="http://webservices/SoapWS/signInResponse" message="tns:signInResponse"/>
+</operation>
 <operation name="altaUsuario">
 <input wsam:Action="http://webservices/SoapWS/altaUsuarioRequest" message="tns:altaUsuario"/>
 <output wsam:Action="http://webservices/SoapWS/altaUsuarioResponse" message="tns:altaUsuarioResponse"/>
 </operation>
-<operation name="signIn">
-<input wsam:Action="http://webservices/SoapWS/signInRequest" message="tns:signIn"/>
-<output wsam:Action="http://webservices/SoapWS/signInResponse" message="tns:signInResponse"/>
+<operation name="obtenerTabla">
+<input wsam:Action="http://webservices/SoapWS/obtenerTablaRequest" message="tns:obtenerTabla"/>
+<output wsam:Action="http://webservices/SoapWS/obtenerTablaResponse" message="tns:obtenerTablaResponse"/>
 </operation>
 <operation name="hello">
 <input wsam:Action="http://webservices/SoapWS/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://webservices/SoapWS/helloResponse" message="tns:helloResponse"/>
 </operation>
+<operation name="creaTabla">
+<input wsam:Action="http://webservices/SoapWS/creaTablaRequest" message="tns:creaTabla"/>
+<output wsam:Action="http://webservices/SoapWS/creaTablaResponse" message="tns:creaTablaResponse"/>
+<fault message="tns:ParseException" name="ParseException" wsam:Action="http://webservices/SoapWS/creaTabla/Fault/ParseException"/>
+</operation>
 </portType>
 <binding name="SoapWSPortBinding" type="tns:SoapWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="obtenerTabla">
+<operation name="obtenTablasDeUsuario">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -76,6 +100,15 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="signIn">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="altaUsuario">
 <soap:operation soapAction=""/>
 <input>
@@ -85,7 +118,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="signIn">
+<operation name="obtenerTabla">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -102,6 +135,18 @@
 <output>
 <soap:body use="literal"/>
 </output>
+</operation>
+<operation name="creaTabla">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="ParseException">
+<soap:fault name="ParseException" use="literal"/>
+</fault>
 </operation>
 </binding>
 <service name="SoapWS">

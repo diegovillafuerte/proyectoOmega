@@ -11,9 +11,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form>
-            <p>Usuario: </p><input type="text" id="usuario" value="" />
-            <p>Contraseña: </p><input type="password" id="contra" value="" />
+        <%
+           //HttpSession mySession = request.getSession();
+           //mySession.invalidate();
+        %>
+        <form method="POST">
+            <p>Usuario: </p><input type="text" id="usuario" value="" name="usuario"/>
+            <p>Contraseña: </p><input type="password" id="contra" value=""/>
             <p>Nombre de la base de datos: </p><input type="text" id="basedd" value="" /><br>
             <input type="button" id="signup" value="Registrar" onclick="callRESTfulWebService(
 'GET','http://localhost:8080/OmegaElbueno/webresources/altas','')"/>
@@ -36,7 +40,7 @@
                             var resp = ajaxRequest.responseText;
                             //alert(resp);
                             if(resp == "True") {
-                                location.href = "ProfileServlet";
+                                location.href = "ProfileServlet?usuario="+document.getElementById("usuario").value;
                             } else {
                                 alert("Usuario y/o contraseña incorrectos");
                             }
@@ -46,7 +50,7 @@
                             var resp = ajaxRequest.responseText;
                             //alert(resp);
                             if(ajaxRequest.responseText == "True") {
-                                location.href = "ProfileServlet";
+                                location.href = "ProfileServlet?usuario="+document.getElementById("usuario").value;
                             } else {
                                 alert("Ese usuario ya existe");
                             }

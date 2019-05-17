@@ -6,6 +6,7 @@
 package webservices;
 
 import java.io.File;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,6 +22,13 @@ import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.json.simple.JSONArray;
@@ -185,6 +193,14 @@ public class SoapWS {
             rs.next();
             int iDTabla=rs.getInt("RES");
             iDTabla++;
+            /*
+            String usuario = "";
+            Statement query5 = con.createStatement();
+            ResultSet rs5 = query5.executeQuery("SELECT ID AS RES2 FROM USUARIOS WHERE NOMBRE='"+usuario+"'");
+            rs5.next();
+            idusuario=rs5.getInt("RES2");*/
+            
+            
             String s="INSERT INTO ROOT.TABLAS (NOMBRE,IDTABLA,IDUSUARIO) VALUES ('"+nombreTabla+"',"+iDTabla+","+idusuario+")";
             query.execute(s);
             
@@ -221,6 +237,7 @@ public class SoapWS {
      */
     @WebMethod(operationName = "obtenTablasDeUsuario")
     public String obtenTablasDeUsuario(@WebParam(name = "nombre") String nombre) {
+        System.out.println(nombre);
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/root","root","root");
@@ -241,17 +258,28 @@ public class SoapWS {
                 Attr attr = doc.createAttribute("usuario");
                 attr.setValue(nombre);
                 rootElement.setAttributeNode(attr);
-                Element nombreTabla = doc.createElement("nombreTabla");
-            while(rs2.next()){
                 
+            while(rs2.next()){
+                Element nombreTabla = doc.createElement("nombreTabla");
                 String nomTabla = rs2.getString("NOMBRE");
-                System.out.println(nomTabla);
                 nombreTabla.appendChild(doc.createTextNode(nomTabla));
                 rootElement.appendChild(nombreTabla);
             }
+            StringWriter sw = new StringWriter();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            transformer.transform(new DOMSource(doc), new StreamResult(sw));
+             con.commit();
+            con.close();
+            return sw.toString();
             
             
-            return rootElement.toString();
+            //return rootElement.toString();
             
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
@@ -262,9 +290,13 @@ public class SoapWS {
     }   catch (ParserConfigurationException ex) {
             Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
             return "falle";
-    }
+    }   catch (TransformerConfigurationException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(SoapWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
-    
+    return "falle";
     }
     
 }
